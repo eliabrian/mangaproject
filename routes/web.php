@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\admin\MangaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/admin', function () {
     return view('admin.manga.index');
+});
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/mangas', [MangaController::class, 'index']);
+    Route::any('/mangas/ajax', [MangaController::class, 'ajax']);
 });
