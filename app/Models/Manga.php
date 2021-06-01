@@ -11,6 +11,13 @@ class Manga extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'status',
+        'summary'
+    ];
+
     public function getUpdatedAtAttribute($value)
 	{
 		return Carbon::createFromTimestamp(strtotime($value))
@@ -34,6 +41,9 @@ class Manga extends Model
             })
             ->editColumn('updated_at', function(Manga $manga){
                 return date('d F Y', strtotime($manga->updated_at));
+            })
+            ->addColumn('action', function(Manga $manga){
+                return view('admin.layouts._action', ['id' => $manga->slug, 'route' => 'admin.manga.edit'])->render();
             })
             ->rawColumns(['action'])
             ->make(true);

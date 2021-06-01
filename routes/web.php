@@ -15,12 +15,12 @@ use App\Http\Controllers\admin\MangaController;
 |
 */
 
-Route::get('/admin', function () {
-    return view('admin.manga.index');
-});
-
-
 Route::prefix('admin')->group(function () {
-    Route::get('/mangas', [MangaController::class, 'index']);
+    // Manga Routes
+    Route::get('/mangas', [MangaController::class, 'index'])->name('admin.manga.index');
+    Route::get('/mangas/create', [MangaController::class, 'create'])->name('admin.manga.create');
+    Route::post('/mangas', [MangaController::class, 'store'])->name('admin.manga.store');
+    Route::get('/mangas/{manga:slug}/edit', [MangaController::class, 'edit'])->name('admin.manga.edit');
+    Route::put('/mangas/{manga:slug}', [MangaController::class, 'update'])->name('admin.manga.update');
     Route::any('/mangas/ajax', [MangaController::class, 'ajax']);
 });

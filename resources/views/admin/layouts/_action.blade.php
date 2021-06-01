@@ -1,0 +1,1 @@
+<a href="{{ route($route, $id) }}"><i class="fas fa-edit fa-sm"></i></a>

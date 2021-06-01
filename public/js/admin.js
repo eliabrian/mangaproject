@@ -28,6 +28,9 @@ $(document).ready(function () {
         }, {
           data: 'updated_at',
           name: 'updated_at'
+        }, {
+          data: 'action',
+          name: 'action'
         }],
         "columnDefs": [{
           "searchable": true,
