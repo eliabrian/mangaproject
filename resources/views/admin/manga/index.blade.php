@@ -10,7 +10,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   @endif
-  <div class="card">
+  <div class="card shadow">
     <div class="card-header">
       <div class="d-flex justify-content-between align-items-center p-1">
         <h4 class="card-title m-0">Mangas</h4>
@@ -28,7 +28,7 @@
               <th>Name</th>
               <th>Created</th>
               <th>Updated</th>
-              <th style="width: 15px" class="text-center">Action</th>
+              <th style="width: 15px">Action</th>
             </tr>
           </thead>
           <tbody></tbody>

@@ -54,4 +54,10 @@ class MangaController extends Controller
     {
         return $this->manga->datatable();
     }
+
+    public function chapterAjax(Request $request)
+    {
+        $chapters = $this->manga->find($request->manga_id)->chapters;
+        return $this->manga->chapterDatatable($chapters);
+    }
 }

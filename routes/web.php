@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\admin\ChapterController;
 use App\Http\Controllers\admin\MangaController;
 
 /*
@@ -23,4 +24,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/mangas/{manga:slug}/edit', [MangaController::class, 'edit'])->name('admin.manga.edit');
     Route::put('/mangas/{manga:slug}', [MangaController::class, 'update'])->name('admin.manga.update');
     Route::any('/mangas/ajax', [MangaController::class, 'ajax']);
+
+    // Chapter Routes
+    Route::get('mangas/{manga:slug}/chapters/create', [ChapterController::class, 'create'])->name('admin.chapter.create');
+    Route::post('/chapters', [ChapterController::class, 'store'])->name('admin.chapter.store');
+    Route::get('/chapters/{chapter:slug}/edit', [ChapterController::class, 'edit'])->name('admin.chapter.edit');
+
+    Route::any('/chapters/ajax', [MangaController::class, 'chapterAjax']);
 });

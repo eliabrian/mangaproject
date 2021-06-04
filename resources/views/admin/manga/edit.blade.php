@@ -12,9 +12,10 @@
     @endif
     <div class="row">
         <div class="col-md-5">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
-                    <h4 class="p-1 card-title m-0">Edit a Manga</h4>
+                    <h4 class="p-1 card-title m-0">Manga Details</h4>
+                    <input type="hidden" value="{{ $manga->id }}" id="manga-id">
                 </div>
                 <div class="card-body">
                     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="ps-2">
@@ -58,6 +59,31 @@
                             <button type="submit" class="btn btn-dark btn-block">Submit</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card shadow" id="admin-chapter-index">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center p-1">
+                        <h4 class="card-title m-0">Chapters</h4>
+                        <a href="{{ route('admin.chapter.create', $manga->slug) }}" class="btn btn-sm btn-dark">
+                          <i class="fas fa-plus fa-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="chapter-datatable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15px">#</th>
+                                    <th>Name</th>
+                                    <th style="width: 15px">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

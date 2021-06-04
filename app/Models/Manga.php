@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Chapter;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,11 @@ class Manga extends Model
         'status',
         'summary'
     ];
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
+    }
 
     public function getUpdatedAtAttribute($value)
 	{
@@ -44,6 +50,16 @@ class Manga extends Model
             })
             ->addColumn('action', function(Manga $manga){
                 return view('admin.layouts._action', ['id' => $manga->slug, 'route' => 'admin.manga.edit'])->render();
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function chapterDatatable($chapters)
+    {
+        return DataTables::of($chapters)
+            ->addColumn('action', function(Chapter $chapter){
+                return view('admin.layouts._action', ['id' => $chapter->slug, 'route' => 'admin.chapter.edit'])->render();
             })
             ->rawColumns(['action'])
             ->make(true);

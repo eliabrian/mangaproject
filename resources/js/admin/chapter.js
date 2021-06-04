@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    let page = $('#admin-manga-index')
+    let page = $('#admin-chapter-index')
     let table = {}
 
-    let manga = {
+    let chapter = {
         table: () => {
-            table = page.find('#manga-datatable')
+            table = page.find('#chapter-datatable')
             table.DataTable({
                 'processing': true,
                 'serverSide': true,
@@ -12,12 +12,14 @@ $(document).ready(function () {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/admin/mangas/ajax',
+                    url: '/admin/chapters/ajax',
+                    data: function (d) {
+                        d.manga_id = $('#manga-id').val()
+                    }
                 },
                 'columns': [
+                    {data: 'chapter_number', name: 'chapter_number'},
                     {data: 'name', name: 'name'},
-                    {data: 'created_at', name: 'created_at'},
-                    {data: 'updated_at', name: 'updated_at'},
                     {data: 'action', name: 'action'},
                 ],
                 "columnDefs": [
@@ -26,5 +28,5 @@ $(document).ready(function () {
             })
         } 
     }
-    manga.table();
+    chapter.table();
 });

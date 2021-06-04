@@ -19,3 +19,4 @@ mix.js('resources/js/app.js', 'public/js')
 mix.sass('resources/css/admin/app.scss', 'public/css/admin')
 
 mix.js('resources/js/admin/manga.js', 'public/js/admin.js')
+mix.js('resources/js/admin/chapter.js', 'public/js/admin.js')
