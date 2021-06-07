@@ -23,7 +23,7 @@
     <!-- Navbar -->
     <header class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
         <div class="container">
-            <a href="#" class="navbar-brand">{{ config('app.name', 'Manga Reader') }}</a>
+            <a href="{{ route('admin.manga.index') }}" class="navbar-brand">{{ config('app.name', 'Manga Reader') }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
