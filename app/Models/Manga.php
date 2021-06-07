@@ -16,7 +16,8 @@ class Manga extends Model
         'name',
         'slug',
         'status',
-        'summary'
+        'summary',
+        'cover',
     ];
 
     public function chapters()

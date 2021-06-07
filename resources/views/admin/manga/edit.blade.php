@@ -24,7 +24,7 @@
                           <li class="breadcrumb-item active" aria-current="page">{{ $manga->name }}</li>
                         </ol>
                     </nav>
-                    <form action="{{ route('admin.manga.update', $manga->slug) }}" method="POST">
+                    <form action="{{ route('admin.manga.update', $manga->slug) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="row">
@@ -49,6 +49,18 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cover" class="form-label">Cover</label>
+                                @if (!empty($manga->cover))    
+                                    <div class="mb-3">
+                                        <img src="{{ $manga->cover }}" alt="{{ $manga->slug }}" class="img-thumbnail" >
+                                    </div>
+                                @endif
+                                <input type="file" name="cover" class="form-control" accept="image/*">
+                                @error('cover')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-floating mb-3">

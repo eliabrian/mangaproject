@@ -7,6 +7,7 @@ use App\Http\Requests\StoreMangaRequest;
 use App\Http\Requests\UpdateMangaRequest;
 use App\Models\Manga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MangaController extends Controller
 {
@@ -43,8 +44,24 @@ class MangaController extends Controller
 
     public function update(UpdateMangaRequest $request, Manga $manga)
     {
-        $data = $request->only(['name', 'slug', 'status', 'summary']);
+        $data = $request->only(['name', 'slug', 'status', 'summary', 'cover']);
+        
+        // Image Upload Handler
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover');
+            $isCoverExists = Storage::exists($manga->slug . '/cover.jpg');
+
+            if ($isCoverExists) {
+                $deleted = Storage::delete($manga->slug . '/cover.jpg');
+            }
+            
+            $cover->storePubliclyAs($manga->slug, 'cover.jpg', 'spaces');
+        }
+
+        $data['cover'] = Storage::url($manga->slug . '/cover.jpg');
+
         $updated = Manga::where('id', $manga->id)->update($data);
+
         if($updated){
             return redirect(route('admin.manga.edit', $manga->slug))->with('status', 'Manga updated !');
         }
