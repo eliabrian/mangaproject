@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Chapter;
 use App\Models\Manga;
 use App\Http\Requests\StoreChapterRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ChapterController extends Controller
 {
@@ -23,16 +24,20 @@ class ChapterController extends Controller
     public function store(StoreChapterRequest $request)
     {
         $data = $request->only(['name', 'slug', 'chapter_number', 'manga_id']);
-        
-        dd($request);
-        // if($request->hasFile('images')) {
-        //     $images = $request->file('images');
-        //     $chapter = Chapter::create($data);
+        $chapter = Chapter::create($data);
 
-        //     foreach ($images as $image) {
-        //         $chapter->attachMedia($image);
-        //     }
-        // }
+        $manga = $chapter->manga;
+        if($request->hasFile('images')) {
+            $images = $request->file('images');
+
+            for ($i = 1; $i <= count($images); $i++) {
+                $images[$i - 1]->storePubliclyAs($manga->slug . '/' . $chapter->slug, $i . '.jpg', 'spaces');
+            }
+        }
+
+        if ($chapter) {
+            return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter created!');
+        }
 
     }
 

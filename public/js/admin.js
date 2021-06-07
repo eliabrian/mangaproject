@@ -1,12 +1,14 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+(() => {
 /*!*************************************!*\
   !*** ./resources/js/admin/manga.js ***!
   \*************************************/
 $(document).ready(function () {
   var page = $('#admin-manga-index');
   var _table = {};
-  var user = {
+  var manga = {
     table: function table() {
       _table = page.find('#manga-datatable');
 
@@ -39,7 +41,54 @@ $(document).ready(function () {
       });
     }
   };
-  user.table();
+  manga.table();
 });
+})();
+
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+(() => {
+/*!***************************************!*\
+  !*** ./resources/js/admin/chapter.js ***!
+  \***************************************/
+$(document).ready(function () {
+  var page = $('#admin-chapter-index');
+  var _table = {};
+  var chapter = {
+    table: function table() {
+      _table = page.find('#chapter-datatable');
+
+      _table.DataTable({
+        'processing': true,
+        'serverSide': true,
+        'ajax': {
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: '/admin/chapters/ajax',
+          data: function data(d) {
+            d.manga_id = $('#manga-id').val();
+          }
+        },
+        'columns': [{
+          data: 'chapter_number',
+          name: 'chapter_number'
+        }, {
+          data: 'name',
+          name: 'name'
+        }, {
+          data: 'action',
+          name: 'action'
+        }],
+        "columnDefs": [{
+          "searchable": true,
+          "targets": 0
+        }]
+      });
+    }
+  };
+  chapter.table();
+});
+})();
+
 /******/ })()
 ;
