@@ -34,7 +34,8 @@ Route::prefix('admin')->group(function () {
         // Chapter Routes
         Route::get('mangas/{manga:slug}/chapters/create', [ChapterController::class, 'create'])->name('admin.chapter.create');
         Route::post('/chapters', [ChapterController::class, 'store'])->name('admin.chapter.store');
-        Route::get('/chapters/{chapter:slug}/edit', [ChapterController::class, 'edit'])->name('admin.chapter.edit');
+        Route::get('mangas/{manga:slug}/chapters/{chapter:slug}/edit', [ChapterController::class, 'edit'])->name('admin.chapter.edit');
+        Route::put('/chapters/{chapter:slug}', [ChapterController::class, 'update'])->name('admin.chapter.update');
     });
     
     Route::any('/mangas/ajax', [MangaController::class, 'ajax']);

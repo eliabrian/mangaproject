@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use App\Models\Manga;
 use App\Http\Requests\StoreChapterRequest;
+use App\Http\Requests\UpdateChapterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +32,8 @@ class ChapterController extends Controller
             $images = $request->file('images');
 
             for ($i = 1; $i <= count($images); $i++) {
-                $images[$i - 1]->storePubliclyAs($manga->slug . '/' . $chapter->slug, $i . '.jpg', 'spaces');
+                $images[$i - 1]->storePubliclyAs($manga->slug . '/' . $chapter->slug,
+                    $i . '.jpg', 'spaces');
             }
         }
 
@@ -41,8 +43,33 @@ class ChapterController extends Controller
 
     }
 
-    public function edit(Chapter $chapter)
+    public function edit(Manga $manga, Chapter $chapter)
     {
-        dd($chapter);
+        return view('admin.chapter.edit', compact('manga','chapter'));
+    }
+
+    public function update(UpdateChapterRequest $request, Chapter $chapter)
+    {
+        $data = $request->only(['name', 'chapter_number', 'manga_id', 'slug']);
+        
+        $manga = $chapter->manga;
+
+        $files = Storage::allFiles($manga->slug . '/' . $chapter->slug);
+        // dd($files);
+
+        $updated = Chapter::where('slug', $chapter->slug)
+            ->where('manga_id', $request->manga_id)
+            ->update($data);
+
+        $newChapter = Chapter::where('slug', $request->slug)->first();
+
+        for ($i = 1; $i <= count($files); $i++) {
+            Storage::move($manga->slug . '/' . $chapter->slug . '/' . $i . '.jpg',
+                $manga->slug . '/' . $newChapter->slug. '/' . $i . '.jpg');
+        }
+
+        if ($updated) {
+            return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter created!');
+        }
     }
 }

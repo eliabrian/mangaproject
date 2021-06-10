@@ -60,7 +60,7 @@ class Manga extends Model
     {
         return DataTables::of($chapters)
             ->addColumn('action', function(Chapter $chapter){
-                return view('admin.layouts._action', ['id' => $chapter->slug, 'route' => 'admin.chapter.edit'])->render();
+                return view('admin.layouts._action', ['id' => [ $chapter->manga->slug, $chapter->slug], 'route' => 'admin.chapter.edit'])->render();
             })
             ->rawColumns(['action'])
             ->make(true);
