@@ -33,7 +33,7 @@ class MangaController extends Controller
         $created = Manga::create($data);
 
         if ($created) {
-            return redirect(route('admin.manga.index'))->with('status', 'Manga created!');
+            return redirect(route('admin.manga.index'))->with('status', 'Manga created!')->with('type', 'sucess');;
         }
     }
 
@@ -63,7 +63,7 @@ class MangaController extends Controller
         $updated = Manga::where('id', $manga->id)->update($data);
 
         if($updated){
-            return redirect(route('admin.manga.edit', $manga->slug))->with('status', 'Manga updated !');
+            return redirect(route('admin.manga.edit', $manga->slug))->with('status', 'Manga updated !')->with('type', 'success');;
         }
     }
 

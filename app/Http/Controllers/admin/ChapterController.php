@@ -54,21 +54,28 @@ class ChapterController extends Controller
         
         $manga = $chapter->manga;
 
-        $files = Storage::allFiles($manga->slug . '/' . $chapter->slug);
-
-        $updated = Chapter::where('slug', $chapter->slug)
-            ->where('manga_id', $request->manga_id)
-            ->update($data);
-
-        $newChapter = Chapter::where('slug', $request->slug)->first();
-
-        for ($i = 1; $i <= count($files); $i++) {
-            Storage::move($manga->slug . '/' . $chapter->slug . '/' . $i . '.jpg',
-                $manga->slug . '/' . $newChapter->slug. '/' . $i . '.jpg');
+        if (!count(Chapter::where('slug', $request->slug)->get())) {
+    
+            $files = Storage::allFiles($manga->slug . '/' . $chapter->slug);
+    
+            $updated = Chapter::where('slug', $chapter->slug)
+                ->where('manga_id', $request->manga_id)
+                ->update($data);
+    
+            $newChapter = Chapter::where('slug', $request->slug)->first();
+    
+            if ($chapter->slug != $newChapter->slug) {
+                for ($i = 1; $i <= count($files); $i++) {
+                    Storage::move($manga->slug . '/' . $chapter->slug . '/' . $i . '.jpg',
+                        $manga->slug . '/' . $newChapter->slug. '/' . $i . '.jpg');
+                }
+            }
+    
+            if ($updated) {
+                return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter updated!')->with('type', 'success');;
+            }
         }
 
-        if ($updated) {
-            return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter created!');
-        }
+        return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter not updated! (Message: Use a different name or chapter number).')->with('type', 'danger');
     }
 }
