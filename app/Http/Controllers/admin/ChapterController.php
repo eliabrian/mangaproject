@@ -52,9 +52,14 @@ class ChapterController extends Controller
     {
         $data = $request->only(['name', 'chapter_number', 'manga_id', 'slug']);
         
-        $manga = $chapter->manga;
+        $manga = Manga::find($request->manga_id);
 
-        if (!count(Chapter::where('slug', $request->slug)->get())) {
+        // Duplicate Validation
+        $duplicate = Chapter::where('slug', $request->slug)
+            ->where('manga_id', $request->manga_id)    
+            ->get();
+
+        if (!count($duplicate)) {
     
             $files = Storage::allFiles($manga->slug . '/' . $chapter->slug);
     
