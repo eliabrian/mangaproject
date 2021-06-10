@@ -55,7 +55,6 @@ class ChapterController extends Controller
         $manga = $chapter->manga;
 
         $files = Storage::allFiles($manga->slug . '/' . $chapter->slug);
-        // dd($files);
 
         $updated = Chapter::where('slug', $chapter->slug)
             ->where('manga_id', $request->manga_id)
