@@ -27,7 +27,7 @@ class StoreChapterRequest extends FormRequest
         return [
             'manga_id' => 'required|exists:mangas,id',
             'name' => 'required|max:255',
-            'chapter_number' => 'required|integer',
+            'chapter_number' => 'required|numeric',
             // 'images' => 'array',
             'slug' => 'nullable'
         ];

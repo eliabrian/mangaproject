@@ -25,13 +25,20 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control @error('chapter_number') is-invalid @enderror" id="chapter_number" name="chapter_number" placeholder="Chapter number" value="{{ $chapter->chapter_number }}">
+                            <input type="number" class="form-control @error('chapter_number') is-invalid @enderror" id="chapter_number" name="chapter_number" placeholder="Chapter number" value="{{ $chapter->chapter_number }}" step="0.1">
                             <label for="chapter_number">Chapter number <span class="text-danger">*</span></label>
                             @error('chapter_number')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror" id="slug" value="{{ $chapter->slug }}">
+                    <label for="slug">Slug <span class="text-danger">*</span></label>
+                    @error('slug')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-dark btn-block">Submit</button>
