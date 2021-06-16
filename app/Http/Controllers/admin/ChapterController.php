@@ -45,7 +45,8 @@ class ChapterController extends Controller
 
     public function edit(Manga $manga, Chapter $chapter)
     {
-        return view('admin.chapter.edit', compact('manga','chapter'));
+        $files = Storage::allFiles($manga->slug . '/' . $chapter->slug);
+        return view('admin.chapter.edit', compact('manga','chapter', 'files'));
     }
 
     public function update(UpdateChapterRequest $request, Chapter $chapter)
@@ -77,10 +78,30 @@ class ChapterController extends Controller
             }
     
             if ($updated) {
-                return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter updated!')->with('type', 'success');;
+                return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter updated!')->with('type', 'success');
             }
         }
 
         return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter not updated! (Message: Use a different name or chapter number).')->with('type', 'danger');
+    }
+
+    public function destroy(Chapter $chapter)
+    {
+        $manga = $chapter->manga;
+        $storageDeleted = Storage::deleteDirectory($manga->slug . '/' . $chapter->slug);
+
+        if($storageDeleted) {
+            $deleted = $chapter->delete();
+
+            if ($deleted) {
+                return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Chapter deleted!')->with('type', 'success');
+            } else {
+                return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Failed to delete chapter!')->with('type', 'danger');
+
+            }
+        } else {
+            return redirect(route('admin.manga.edit', ['manga' => $manga->slug]))->with('status', 'Failed to delete chapter! Reason: Failed to delete the image directory')->with('type', 'danger');
+        }
+
     }
 }

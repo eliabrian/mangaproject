@@ -63,7 +63,7 @@ class MangaController extends Controller
         $updated = Manga::where('id', $manga->id)->update($data);
 
         if($updated){
-            return redirect(route('admin.manga.edit', $manga->slug))->with('status', 'Manga updated !')->with('type', 'success');;
+            return redirect(route('admin.manga.edit', $request->slug))->with('status', 'Manga updated !')->with('type', 'success');;
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class UpdateMangaRequest extends FormRequest
 {
@@ -29,5 +30,18 @@ class UpdateMangaRequest extends FormRequest
             'status' => 'required|in:ongoing,completed',
             'summary' => 'nullable',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if(empty($this->slug)){
+            $this->merge([
+                'slug' => Str::slug($this->name),
+            ]);
+        }else{
+            $this->merge([
+                'slug' => Str::slug($this->slug),
+            ]);
+        }
     }
 }
