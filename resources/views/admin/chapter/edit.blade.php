@@ -80,7 +80,7 @@
         <div class="col-md-7">
             <div class="overflow-auto" style="max-height:720px">
             @for ($i = 0; $i < count($files); $i++)
-                <img src="https://malyadev.sgp1.digitaloceanspaces.com/{{ $manga->slug }}/{{ $chapter->slug }}/{{ $i+1 }}.jpg" alt="{{ $chapter->slug }}" class="img-thumbnail" >
+                <img src="{{ env('DIGITALOCEAN_SPACES_URL') }}/{{ $manga->slug }}/{{ $chapter->slug }}/{{ $i+1 }}.jpg" alt="{{ $chapter->slug }}" class="img-thumbnail" >
             @endfor
             </div>
         </div>
